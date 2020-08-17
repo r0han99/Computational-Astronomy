@@ -1,10 +1,11 @@
 # Computational-Astronomy 🌌
 ***
 
-[Picture]
+![1200px-Heic1401a-Abell2744-20140107](https://user-images.githubusercontent.com/45916202/90437120-73a1a380-e0ef-11ea-8a08-fa41bf18488e.jpg)
+
 
                 
-                        Abell2744 starcluster
+                                            Abell2744 starcluster
 
 
 This is a brief overview of how Astronomers around the world _Collect_, _Analyse_, and _Process_ the data to gain scientific knowledge. 
