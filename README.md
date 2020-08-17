@@ -14,7 +14,7 @@ Astronomy has quickly evolved from hand derived outlooks of classification into 
 
 Concepts Covered in this repository
 ```
-1. Basic Concept of how Pulsars are detected. And how Astronomical data collected and is Handled.
+1. Basic Concept of how Pulsars are detected. And how Astronomical data is collected and Handled.
 2. Exploratory data analysis on the Kepler-Exoplanet Archive.
 3. Naive and Advanced techniques of Cross-Matching two Sky-survey Catalogues.
 4. Galaxy classification using Sophisticated Machine Learning Algorithms and evaluating the results using Confusion Matrices.
