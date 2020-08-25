@@ -17,6 +17,7 @@ Concepts Covered in this repository
 2. Exploratory data analysis on the Kepler-Exoplanet Archive.
 3. Naive and Advanced techniques of Cross-Matching two Sky-survey Catalogues.
 4. Galaxy classification using Sophisticated Machine Learning Algorithms and evaluating the results using Confusion Matrices.
+5. Morphological Galaxy Classification with Multilayered perceptron Model,on Galaxy Zoo data.
 ```
 
 
