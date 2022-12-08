@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Rohan Sai Nalla">
+<meta name="author" content="Siddharth Tayi">
+<meta name="author" content="Mohammed Junaid Shaik">
+<meta name="author" content="Ashwathi Subramanian">
+<meta name="author" content="Puja Kumari Lnu">
+
+<title>Data Science for Astronomy</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="Project-Report_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Project-Report_files/libs/quarto-html/quarto.js"></script>
+<script src="Project-Report_files/libs/quarto-html/popper.min.js"></script>
+<script src="Project-Report_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Project-Report_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Project-Report_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Project-Report_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Project-Report_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Project-Report_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Project-Report_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#exoplanet-archive-analysis" id="toc-exoplanet-archive-analysis" class="nav-link active" data-scroll-target="#exoplanet-archive-analysis">Exoplanet Archive Analysis</a>
+  <ul>
+  <li><a href="#what-is-an-exoplanet" id="toc-what-is-an-exoplanet" class="nav-link" data-scroll-target="#what-is-an-exoplanet"><strong>What is an exoplanet?</strong></a></li>
+  <li><a href="#exoplanet-discovery" id="toc-exoplanet-discovery" class="nav-link" data-scroll-target="#exoplanet-discovery">Exoplanet Discovery</a>
+  <ul>
+  <li><a href="#transit-method" id="toc-transit-method" class="nav-link" data-scroll-target="#transit-method">Transit Method</a></li>
+  </ul></li>
+  <li><a href="#importing-data" id="toc-importing-data" class="nav-link" data-scroll-target="#importing-data">Importing Data</a>
+  <ul>
+  <li><a href="#an-overview" id="toc-an-overview" class="nav-link" data-scroll-target="#an-overview">An Overview</a></li>
+  <li><a href="#dimensionality---attributes-involved." id="toc-dimensionality---attributes-involved." class="nav-link" data-scroll-target="#dimensionality---attributes-involved.">Dimensionality - Attributes Involved.</a></li>
+  </ul></li>
+  <li><a href="#data-preprocessing" id="toc-data-preprocessing" class="nav-link" data-scroll-target="#data-preprocessing">Data Preprocessing</a></li>
+  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">Exploratory Data Analysis</a>
+  <ul>
+  <li><a href="#the-major-mode-of-detection-facility" id="toc-the-major-mode-of-detection-facility" class="nav-link" data-scroll-target="#the-major-mode-of-detection-facility">The Major Mode of Detection &amp; Facility</a></li>
+  <li><a href="#exoplanet-discoveries-over-the-years" id="toc-exoplanet-discoveries-over-the-years" class="nav-link" data-scroll-target="#exoplanet-discoveries-over-the-years">Exoplanet Discoveries Over the years</a></li>
+  <li><a href="#orbital-period-vs-planet-radii" id="toc-orbital-period-vs-planet-radii" class="nav-link" data-scroll-target="#orbital-period-vs-planet-radii">Orbital Period Vs Planet Radii</a></li>
+  <li><a href="#planets-discovered-after-the-introduction-of-tess-kepler" id="toc-planets-discovered-after-the-introduction-of-tess-kepler" class="nav-link" data-scroll-target="#planets-discovered-after-the-introduction-of-tess-kepler">Planets Discovered After the introduction of TESS &amp; Kepler</a></li>
+  <li><a href="#types-of-exoplanets" id="toc-types-of-exoplanets" class="nav-link" data-scroll-target="#types-of-exoplanets">Types of Exoplanets</a></li>
+  </ul></li>
+  <li><a href="#exoploring-the-habitable-exoplanets" id="toc-exoploring-the-habitable-exoplanets" class="nav-link" data-scroll-target="#exoploring-the-habitable-exoplanets">Exoploring the Habitable Exoplanets</a>
+  <ul>
+  <li><a href="#keplers-habitable-planets" id="toc-keplers-habitable-planets" class="nav-link" data-scroll-target="#keplers-habitable-planets">Kepler’s Habitable Planets</a>
+  <ul class="collapse">
+  <li><a href="#kepler-442-b-illustration" id="toc-kepler-442-b-illustration" class="nav-link" data-scroll-target="#kepler-442-b-illustration">Kepler 442 b ~ Illustration</a></li>
+  </ul></li>
+  <li><a href="#kepler-22-b---illustration" id="toc-kepler-22-b---illustration" class="nav-link" data-scroll-target="#kepler-22-b---illustration">Kepler 22 b - Illustration</a></li>
+  <li><a href="#kepler-62-f---illustration" id="toc-kepler-62-f---illustration" class="nav-link" data-scroll-target="#kepler-62-f---illustration">Kepler 62 f - Illustration</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info">Session Info</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Data Science for Astronomy</h1>
+<p class="subtitle lead">Application Area Project</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-contents">
+             <p>Rohan Sai Nalla </p>
+             <p>Siddharth Tayi </p>
+             <p>Mohammed Junaid Shaik </p>
+             <p>Ashwathi Subramanian </p>
+             <p>Puja Kumari Lnu </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="abstract-title">Abstract</div>
+    Since the dawn of time, people look into the sky stirring up questions out curiousity to know the very meanning of our existence. The questions like why are the seasons as they are? Why are we the only conscious people? Why did earth come to be? What is our purpose? Are we alone? came into consideration. These questions are the foundation to modern day astronomy. Considering the current influx of data in every domain astronomy is one of the first fields to leverage on this transition. With the addition of Data the very nature of discoveries changed. To elucidate this transistion this report present key findings of Exoplanet discoveries considering the timeline from the inception to the current epoch.
+  </div>
+</div>
+
+</header>
+
+<hr>
+<section id="exoplanet-archive-analysis" class="level1">
+<h1>Exoplanet Archive Analysis</h1>
+<p>Premise of this analysis is to answer the question of <strong>Are we alone in the Universe?</strong>, the entire expedition of exoplanets itself is founded on this question. The quest to find more planets which closely resemble to us in all the aspects, making it habitable for other lifeforms. This question is also tied closely to the answering another question that stems from the dawn of time, which is the very purpose of our existence. To Exoplore and understand space comprehensively and scientifically, data plays an important role.</p>
+<section id="what-is-an-exoplanet" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-an-exoplanet"><strong>What is an exoplanet?</strong></h3>
+<p>To put it simply, any planet outside of our solar system is an exoplanet. Rogue planets are exoplanets that don’t orbit any star and instead orbit the Milky Way’s center.</p>
+<p>The majority of the identified exoplanets are in a very tiny area of our galaxy, the Milky Way. According to NASA’s Kepler Space Telescope, the galaxy has more planets than stars.</p>
+<p>We may observe compositions ranging from highly rocky (like Earth and Venus) to very gas-rich by measuring exoplanet sizes (diameters) and masses (weights) (like Jupiter and Saturn). Exoplanets are composed of elements comparable to those found in our solar system, although their compositions may vary. Water or ice may dominate certain planets, whereas iron or carbon may rule others. We’ve discovered lava worlds with molten oceans, fluffy planets with the solidity of Styrofoam, and dense cores of planets that are still circling their sun.</p>
+</section>
+<section id="exoplanet-discovery" class="level3">
+<h3 class="anchored" data-anchor-id="exoplanet-discovery">Exoplanet Discovery</h3>
+<p>In the quest of finding other planets which are closest to earth like in-terms of habitability, terrain etc. NASA introduced Kepler and TESS Satellites to observe and detect objects in vast amounts of space.</p>
+<section id="transit-method" class="level4">
+<h4 class="anchored" data-anchor-id="transit-method">Transit Method</h4>
+<p>Kepler looks for planets using the <em>Transit Method</em>, when a planet passes in front of the star the data in wave form detects a decrease in brightness.</p>
+<p>The transit method works only if the orbital plane of the objects is aligned to the line of sight of kepler. Assuming that the geometric probability of the axis is randomly distributed in space then the geometric probability of a transit is 0.5.</p>
+<p>So to find planets you need to observe a lot of stars, half a million stars in Kepler field of view around 150k are chosen for observation.</p>
+<p>All of the data collected either through Kepler or TESS is openly available to access through the public API sources through the NASA’s Exoplanet-archive.</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
+</section>
+</section>
+<section id="importing-data" class="level3">
+<h3 class="anchored" data-anchor-id="importing-data">Importing Data</h3>
+<p>The data used in this report is sourced from mutiple archives. Both the datasets used in the report have similar attributes but consists of various exoplanets. In aggregation, both archives will have exoplanets from Kepler, TESS and CoRot Satellite data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>url1 <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/r0han99/Computational-Astronomy/master/Exo-Planet%20Archive/exoplanet-archive.csv"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>url2 <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/r0han99/Computational-Astronomy/master/Exo-Planet%20Archive/all_exoplanets_2021.csv"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>url3 <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/r0han99/Computational-Astronomy/master/Exo-Planet%20Archive/kepler_exoplanet_catalog.csv"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(url1)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>all_exo <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(url2)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>kepler_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(url3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The three datasets <code>data</code>, <code>all_exo</code>, &amp; <code>kepler_data</code>, represent the same attributes but for different exoplanets in each. Following are the list of attributes involved in the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(<span class="fu">colnames</span>(data),<span class="sc">-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "name"                       "light_years_from_earth"    
+ [3] "planet_mass"                "stellar_magnitude"         
+ [5] "discovery_date"             "planet_type"               
+ [7] "planet_radius"              "orbital_radius"            
+ [9] "orbital_period"             "eccentricity"              
+[11] "solar_system_name"          "planet_discovery_method"   
+[13] "planet_orbital_inclination" "planet_density"            
+[15] "right_ascension"            "declination"               
+[17] "host_temperature"           "host_mass"                 
+[19] "host_radius"                "orbital_period_value"      
+[21] "orbital_period_unit"        "planet_radius_value"       
+[23] "planet_radius_unit"         "orbital_radius_value"      
+[25] "orbital_radius_unit"       </code></pre>
+</div>
+</div>
+<section id="an-overview" class="level4">
+<h4 class="anchored" data-anchor-id="an-overview">An Overview</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data, <span class="at">n=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  X                 name light_years_from_earth    planet_mass
+1 0 11 Comae Berenices b                    305  19.4 Jupiters
+2 1   11 Ursae Minoris b                    410 14.74 Jupiters
+3 2      14 Andromedae b                    247   4.8 Jupiters
+  stellar_magnitude discovery_date planet_type  planet_radius orbital_radius
+1             4.740           2007   Gas Giant 1.08 x Jupiter        1.29 AU
+2             5.016           2009   Gas Giant 1.09 x Jupiter        1.53 AU
+3             5.227           2008   Gas Giant 1.15 x Jupiter        0.83 AU
+  orbital_period eccentricity solar_system_name planet_discovery_method
+1       326 days         0.23            11 Com         Radial Velocity
+2      1.4 years         0.08            11 UMi         Radial Velocity
+3     185.8 days            0            14 And         Radial Velocity
+  planet_orbital_inclination planet_density right_ascension  declination
+1                         NA             NA    12h20m43.03s +17d47m34.3s
+2                         NA             NA    15h17m05.89s +71d49m26.0s
+3                         NA             NA    23h31m17.42s +39d14m10.3s
+  host_temperature host_mass host_radius orbital_period_value
+1             4742      2.70       19.00                326.0
+2             4213      2.78       29.79                  1.4
+3             4813      2.20       11.00                185.8
+  orbital_period_unit planet_radius_value planet_radius_unit
+1                days                1.08            Jupiter
+2               years                1.09            Jupiter
+3                days                1.15            Jupiter
+  orbital_radius_value orbital_radius_unit
+1                 1.29                  AU
+2                 1.53                  AU
+3                 0.83                  AU</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data, <span class="at">n=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  X                 name light_years_from_earth    planet_mass
+1 0 11 Comae Berenices b                    305  19.4 Jupiters
+2 1   11 Ursae Minoris b                    410 14.74 Jupiters
+3 2      14 Andromedae b                    247   4.8 Jupiters
+  stellar_magnitude discovery_date planet_type  planet_radius orbital_radius
+1             4.740           2007   Gas Giant 1.08 x Jupiter        1.29 AU
+2             5.016           2009   Gas Giant 1.09 x Jupiter        1.53 AU
+3             5.227           2008   Gas Giant 1.15 x Jupiter        0.83 AU
+  orbital_period eccentricity solar_system_name planet_discovery_method
+1       326 days         0.23            11 Com         Radial Velocity
+2      1.4 years         0.08            11 UMi         Radial Velocity
+3     185.8 days            0            14 And         Radial Velocity
+  planet_orbital_inclination planet_density right_ascension  declination
+1                         NA             NA    12h20m43.03s +17d47m34.3s
+2                         NA             NA    15h17m05.89s +71d49m26.0s
+3                         NA             NA    23h31m17.42s +39d14m10.3s
+  host_temperature host_mass host_radius orbital_period_value
+1             4742      2.70       19.00                326.0
+2             4213      2.78       29.79                  1.4
+3             4813      2.20       11.00                185.8
+  orbital_period_unit planet_radius_value planet_radius_unit
+1                days                1.08            Jupiter
+2               years                1.09            Jupiter
+3                days                1.15            Jupiter
+  orbital_radius_value orbital_radius_unit
+1                 1.29                  AU
+2                 1.53                  AU
+3                 0.83                  AU</code></pre>
+</div>
+</div>
+</section>
+<section id="dimensionality---attributes-involved." class="level4">
+<h4 class="anchored" data-anchor-id="dimensionality---attributes-involved.">Dimensionality - Attributes Involved.</h4>
+<p>Dimensions of <code>data</code>, <code>kepler_data</code>,<code>all_exo</code></p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4251   26</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2299   14</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4575   23</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="data-preprocessing" class="level3">
+<h3 class="anchored" data-anchor-id="data-preprocessing">Data Preprocessing</h3>
+<p>At this stage, we observed a lot of inconsistencies within the data that needs to be addressed in order to progress further in the analysis. These inconsistencies are omnipresent in any real-world data sets. We initially observed huge magnitude of missing values which are then selectively addressed.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_miss_upset</span>(data) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Project-Report_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Missing Value Representation</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The attributes, <code>planet_density</code>, <code>planet_oribital_inclination</code> have a significant number of missing values and are also unrelevant to our further analysis.</p>
+<p><strong>Dropping ‘planet_density’, ‘planet_orbital_inclination’</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">within</span>(data, <span class="fu">rm</span>(<span class="st">"planet_density"</span>,<span class="st">"planet_orbital_inclination"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Counting the number of ‘NA’ values in the dataset</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>countNas1 <span class="ot">&lt;-</span> <span class="fu">colSums</span>(<span class="fu">is.na</span>(df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>countNas1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                      X                    name  light_years_from_earth 
+                      0                       0                      10 
+            planet_mass       stellar_magnitude          discovery_date 
+                      0                     107                       0 
+            planet_type           planet_radius          orbital_radius 
+                      0                       0                       0 
+         orbital_period            eccentricity       solar_system_name 
+                      0                       0                       0 
+planet_discovery_method         right_ascension             declination 
+                      0                       0                       0 
+       host_temperature               host_mass             host_radius 
+                    271                     805                     390 
+   orbital_period_value     orbital_period_unit     planet_radius_value 
+                      0                       0                       0 
+     planet_radius_unit    orbital_radius_value     orbital_radius_unit 
+                      0                    1541                       0 </code></pre>
+</div>
+</div>
+<p><strong>Dealing with Infinity Values</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">do.call</span>(data.frame, <span class="fu">lapply</span>(df, <span class="cf">function</span>(x) {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">replace</span>(x, <span class="fu">is.infinite</span>(x) <span class="sc">|</span> <span class="fu">is.na</span>(x), <span class="dv">0</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Filling ‘NA’ values as Not Recorded</strong></p>
+<p>In a conventional approach, normally the best course of action to deal with numeric missing values is to perform either <em>Median Imputation</em> or <em>Mean Imputation</em>. In astronomical data, every thing seems to be out of place, the values though seem like outliers are true to nature. So an average representation can skew the analysis. We concurred that imputing the values with <code>Not Recorded</code> will be the best course of action.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>light_years_from_earth[<span class="fu">is.na</span>(df<span class="sc">$</span>light_years_from_earth)] <span class="ot">&lt;-</span> <span class="st">"Not Recorded"</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>host_mass[<span class="fu">is.na</span>(df<span class="sc">$</span>host_mass)] <span class="ot">&lt;-</span> <span class="st">"Not Recorded"</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>host_temperature[<span class="fu">is.na</span>(df<span class="sc">$</span>host_temperature)] <span class="ot">&lt;-</span> <span class="st">"Not Recorded"</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>host_radius[<span class="fu">is.na</span>(df<span class="sc">$</span>host_radius)] <span class="ot">&lt;-</span> <span class="st">"Not Recorded"</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="fu">across</span>(stellar_magnitude, <span class="sc">~</span><span class="fu">replace_na</span>(., <span class="fu">median</span>(., <span class="at">na.rm=</span><span class="cn">TRUE</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="exploratory-data-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h3>
+<section id="the-major-mode-of-detection-facility" class="level4">
+<h4 class="anchored" data-anchor-id="the-major-mode-of-detection-facility">The Major Mode of Detection &amp; Facility</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(all_exo, <span class="fu">aes</span>(<span class="at">x=</span>Discovery.Method)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="st">'orange'</span>) <span class="sc">+</span> <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Project-Report_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Methods used to detect a Exoplanet Signature</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>According to the data, the majority of the discoveries are by the Kepler Space Telescope, but there are significant other observatories that have contributed to the exploration. Citing from the Mode of detection chart, the go-to methodology for detecting an exoplanet is through the transit method, which seem quite plausible only through observing the minute change in luminosity in relation to time.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Project-Report_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Facilities Used for Exoplanet Exoploration</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="exoplanet-discoveries-over-the-years" class="level4">
+<h4 class="anchored" data-anchor-id="exoplanet-discoveries-over-the-years">Exoplanet Discoveries Over the years</h4>
+<p>Although the science of exoplanets kicked of in the 1990’s but the success of the space telescopes ( x-ray and gamma ray detection ) CoRoT and kepler. In 90s the discovery rate was 1 or 2 of exoplanets a year now with kepler it is about 100’s of new planets a year are discovered</p>
+<p>In 1999, David Charbonneau and Greg Henry lead different research teams that detect a planet moving across the front of the star HD 209458 in the constellation Pegasus. This discovery enables astronomers to examine the planet’s atmosphere, which they think includes water, oxygen, nitrogen, and carbon. Because of the planet’s tight orbit to its star, its atmosphere is being stripped away, leaving a comet-like tail behind it. Artist’s rendering of the HD 209458 system.</p>
+<div class="cell quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Project-Report_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">20th Century</figcaption><p></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Project-Report_files/figure-html/unnamed-chunk-12-2.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">21st Century</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="orbital-period-vs-planet-radii" class="level4">
+<h4 class="anchored" data-anchor-id="orbital-period-vs-planet-radii">Orbital Period Vs Planet Radii</h4>
+<p>The orbital period ( The time it takes to complete a single orbit around its host) in relation with the planet radii, illustrates the key information of its magnitude. This plot reveals key information about the oribital period of planets in relation to their size, it is evident from the plot that earth like planets ( Super Earths ) are having orbital periods closer to the that of earth days. Whereas the planets which are in the magnitudes of Jupiter are seen to have larger orbital periods which is a natural trend even in our solar system.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Project-Report_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Exoplanets Orbital Period Vs Radius Graph</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="planets-discovered-after-the-introduction-of-tess-kepler" class="level4">
+<h4 class="anchored" data-anchor-id="planets-discovered-after-the-introduction-of-tess-kepler">Planets Discovered After the introduction of TESS &amp; Kepler</h4>
+<p>A Delta II rocket carrying NASA’s Kepler space telescope lifts off from Florida’s Cape Canaveral Air Force Station. Kepler will spend four years staring at a region of sky with 150,000 stars, looking for small dips in illumination when planets pass in front of some of them. Before a malfunction terminates its main mission in 2013, the pioneering spacecraft will have discovered over 1,000 verified exoplanets—a gold rush of discovery.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Project-Report_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Transformative Change in Planets Discovered</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="types-of-exoplanets" class="level4">
+<h4 class="anchored" data-anchor-id="types-of-exoplanets">Types of Exoplanets</h4>
+<p>In the sample of data we have, the majority of the dataset is populated with the planets which are in the magnitudes of Jupiter and Neptune, there are also significant others which are barely less than Neptune called as the Super Earths. Discovery of these types significantly increased after the introduction of Kepler which had a primary mission to observe planets that produce only a minor signature. This can be observed in the above figures 6 and 7 where the number of planets after 2009 fall in between the jupiter radii of 0-1.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x=</span>planet_type,<span class="at">fill=</span>planet_type)) <span class="sc">+</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Project-Report_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>From the sample of data, there are main 4 categories with respect to the size of the planets: ‘Gas Giant’/Jupiter, ‘Neptune-like’, ‘Super Earth’, and ‘Terrestrial’. Most of the planets that are explored are the size of ‘Neptune’ and the least number of planets are the size of the ‘Earth’/Terrestrial Analysis before kepler (pre kepler) concluded that the planets observed were much larger than earth and Neptune, but was later proven wrong after Kepler’s discovery. In current era, most of the planets discovered are closer to the size of ‘Earth’. This is due to the fact that, kepler was tuned to observe the transits from planets which are smaller.</p>
+</section>
+</section>
+<section id="exoploring-the-habitable-exoplanets" class="level3">
+<h3 class="anchored" data-anchor-id="exoploring-the-habitable-exoplanets">Exoploring the Habitable Exoplanets</h3>
+<p>The habitable zone is the area of space around a star where temperatures are neither too hot nor too cold for liquid water to exist on neighbouring planets’ surfaces. The habitable zone is essentially influenced by two factors: the mass and period of the star. The spectral type and brightness of a star change as it evolves. The habitable zone is defined as the range of orbital distances from a star at which a planet may sustain liquid water. This implies that water is necessary for life to exist, which is not always the case.</p>
+<p><strong>Properties of a Habitable Planet</strong></p>
+<p>A star’s output has been constant for billions of years; orbit it. Moreover it should be far enough away from the star for its surface water to be liquid rather than solid at the proper temperature. Also, the exoplanet should have a circular orbit, so that during the course of its “year,” the same conditions prevail. In a quantified sense, the planets in between 0.95 AU and 1.67 AU are deemed to be habitable, considering the Star is in the same classification as our Sun which is the K-type classification.</p>
+<p>The star classification in this context is imperative to host life on a planet, if the Star type os “O” or “B” which are ‘super massive stars’ though the exoplanet is in habitable zone, the planet’s temperature will be too hot to hold any liquid water or even life.</p>
+<p>Throughout the kepler’s expedition there have been certain planets that are deemed to be habitable by scientists for the unique properties they hold. Through our research we found out the code names for these <strong>Potentially Habitable</strong> Planets. The following section includes the detailed look into <em>three</em> such planets which are scientifically agreed to be habitable. To perform this we use the <code>kepler_data</code> which is a sample from the entire cummulative dataset from NASA’s Kepler Exoplanet Archive.</p>
+<p>NASA’s <strong>Exoplanet Catalog</strong> has a really good illustrated representation of the planet and its properties on it website, we used this report to cross-validate our findings and learn more about the object of interest.</p>
+<ul>
+<li>Kepler 442 b</li>
+<li>Kepler 22 b</li>
+<li>Kepler 62 f</li>
+</ul>
+<p>The Kepler Naming convention is informative in itself. The number and alphabet, represents the Code number and the sequence of planet. The alphabet, a-z represents the number of planets in the entire system of that KOI (Kepler Object of Interest). For instace, kepler 62 f is a 5 planet system with “f” being in the habitable zone. All of these can be visually seen through <em>NASA’s Exoplanet Eyes</em> by selecting the system field.</p>
+<section id="keplers-habitable-planets" class="level4">
+<h4 class="anchored" data-anchor-id="keplers-habitable-planets">Kepler’s Habitable Planets</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>k442b <span class="ot">&lt;-</span> <span class="fu">filter</span>(kepler_data, kepler_name<span class="sc">==</span><span class="st">'Kepler-442 b'</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>k22b <span class="ot">&lt;-</span> <span class="fu">filter</span>(kepler_data, kepler_name<span class="sc">==</span><span class="st">'Kepler-22 b'</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>k62f <span class="ot">&lt;-</span> <span class="fu">filter</span>(kepler_data, kepler_name<span class="sc">==</span><span class="st">'Kepler-62 f'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="kepler-442-b-illustration" class="level5">
+<h5 class="anchored" data-anchor-id="kepler-442-b-illustration">Kepler 442 b ~ <a href="https://exoplanets.nasa.gov/exoplanet-catalog/4906/kepler-442-b/">Illustration</a></h5>
+<p>Kepler-442 b is a super Earth exoplanet in the habitable zone of a K-type star ( similar to that of our sun). It has a mass of 2.36 Earths, takes 112.3 days to complete one circle around its star, and is 0.409 AU away from it. Its finding was revealed in the year 2001.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 22%">
+<col style="width: 18%">
+<col style="width: 17%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Planet Name</th>
+<th style="text-align: left;">Disposition</th>
+<th style="text-align: right;">Host-Star Temperature(k)</th>
+<th style="text-align: right;">Host-Star Radii(sun)</th>
+<th style="text-align: right;">Planet Radii(earth)</th>
+<th style="text-align: right;">Orbital Period(days)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Kepler-442 b</td>
+<td style="text-align: left;">CONFIRMED</td>
+<td style="text-align: right;">4401</td>
+<td style="text-align: right;">0.595</td>
+<td style="text-align: right;">1.3</td>
+<td style="text-align: right;">112.3031</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+<section id="kepler-22-b---illustration" class="level4">
+<h4 class="anchored" data-anchor-id="kepler-22-b---illustration">Kepler 22 b - <a href="https://exoplanets.nasa.gov/exoplanet-catalog/1599/kepler-22b/">Illustration</a></h4>
+<p>Kepler-22b is a super-Earth that might be completely covered by a mega ocean. The judgment is still out on Kepler-22b’s real composition; at 2.4 times the radius of the Earth, it may potentially be gaseous. According to current computer simulation, an ocean planet turned on its side - similar to our solar system’s ice giant, Uranus - turns out to be reasonably livable. An exoplanet of Earth’s size, at a similar distance from its sun and covered in water, might have an average surface temperature of roughly 60 degrees Fahrenheit, according to researchers (15.5 Celsius). Because of its extreme tilt, the planet’s north and south poles would alternately be drenched in sunshine and darkness for half a year as it circled its star.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 22%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Planet Name</th>
+<th style="text-align: left;">Disposition</th>
+<th style="text-align: right;">Host-Star Temperature(k)</th>
+<th style="text-align: right;">Host-Star Radii(sun)</th>
+<th style="text-align: right;">Planet Radii(earth)</th>
+<th style="text-align: right;">Orbital Period(days)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Kepler-22 b</td>
+<td style="text-align: left;">CONFIRMED</td>
+<td style="text-align: right;">5516</td>
+<td style="text-align: right;">0.886</td>
+<td style="text-align: right;">2.34</td>
+<td style="text-align: right;">289.8641</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="kepler-62-f---illustration" class="level4">
+<h4 class="anchored" data-anchor-id="kepler-62-f---illustration">Kepler 62 f - <a href="https://exoplanets.nasa.gov/exoplanet-catalog/375/kepler-62-f/">Illustration</a></h4>
+<p>Kepler-62 f is a super Earth exoplanet in the habitable zone of a K-type star. It has a mass of 35 Earths, takes 267.3 days to complete one circle around its star, and is 0.718 AU away from it. It was discovered in 2013 and was publicized.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 22%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Planet Name</th>
+<th style="text-align: left;">Disposition</th>
+<th style="text-align: right;">Host-Star Temperature(k)</th>
+<th style="text-align: right;">Host-Star Radii(sun)</th>
+<th style="text-align: right;">Planet Radii(earth)</th>
+<th style="text-align: right;">Orbital Period(days)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Kepler-62 f</td>
+<td style="text-align: left;">CONFIRMED</td>
+<td style="text-align: right;">4926</td>
+<td style="text-align: right;">0.662</td>
+<td style="text-align: right;">1.43</td>
+<td style="text-align: right;">267.2825</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+<p>This report consists of base level analysis on just a small sample of enourmous exoplanet archive that is openly available. The objective of this project is is to elucidate how the influx of data in the current age is influencing the scientific discoveries. Pre-kepler era, where the observations are done from the ground base systems used to rely on sluggish processes which take a lot of time and effort to validate only a few objects. But, in the age of data, the information obtained from Kepler is enormous with hundreds of parameters related to a particular exoplanet to be ready at disposal to categorise with Data Mining. The programmatic illustrations and statistical analysis help scientists to grasp huge amount of information with some simple code.</p>
+<p><strong>Identifying our Bias</strong> — There are multiple segments in the report where we can observe an induced bias.For the analysis of habitable exoplanets we could only use a miniature sample of the entire kepler archive, narrowing down our analysis to only three <em>Earth Like</em> objects. Same applies to the original data which includes all Exoplanets from different observation facilities and methods. The sheer lack of data accounts for not having a good analytical representation.</p>
+<hr>
+</section>
+<section id="session-info" class="level3">
+<h3 class="anchored" data-anchor-id="session-info">Session Info</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>R version 4.2.2 (2022-10-31)
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS Monterey 12.6.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] UpSetR_1.4.0    naniar_0.6.1    forcats_0.5.2   stringr_1.4.1  
+ [5] purrr_0.3.5     readr_2.1.3     tidyr_1.2.1     tibble_3.1.8   
+ [9] ggplot2_3.4.0   tidyverse_1.3.2 dplyr_1.0.10   
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.9          lattice_0.20-45     lubridate_1.9.0    
+ [4] assertthat_0.2.1    digest_0.6.30       utf8_1.2.2         
+ [7] plyr_1.8.8          R6_2.5.1            cellranger_1.1.0   
+[10] backports_1.4.1     reprex_2.0.2        visdat_0.5.3       
+[13] evaluate_0.18       highr_0.9           httr_1.4.4         
+[16] pillar_1.8.1        rlang_1.0.6         googlesheets4_1.0.1
+[19] readxl_1.4.1        rstudioapi_0.14     Matrix_1.5-1       
+[22] rmarkdown_2.18      splines_4.2.2       labeling_0.4.2     
+[25] googledrive_2.0.0   htmlwidgets_1.5.4   munsell_0.5.0      
+[28] broom_1.0.1         compiler_4.2.2      modelr_0.1.10      
+[31] xfun_0.35           pkgconfig_2.0.3     mgcv_1.8-41        
+[34] htmltools_0.5.3     tidyselect_1.2.0    gridExtra_2.3      
+[37] fansi_1.0.3         crayon_1.5.2        tzdb_0.3.0         
+[40] dbplyr_2.2.1        withr_2.5.0         grid_4.2.2         
+[43] nlme_3.1-160        jsonlite_1.8.3      gtable_0.3.1       
+[46] lifecycle_1.0.3     DBI_1.1.3           magrittr_2.0.3     
+[49] scales_1.2.1        cli_3.4.1           stringi_1.7.8      
+[52] farver_2.1.1        fs_1.5.2            xml2_1.3.3         
+[55] ellipsis_0.3.2      generics_0.1.3      vctrs_0.5.1        
+[58] tools_4.2.2         glue_1.6.2          hms_1.1.2          
+[61] fastmap_1.1.0       yaml_2.3.6          timechange_0.1.1   
+[64] colorspace_2.0-3    gargle_1.2.1        rvest_1.0.3        
+[67] knitr_1.41          haven_2.5.1        </code></pre>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

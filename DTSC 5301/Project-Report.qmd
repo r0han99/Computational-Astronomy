@@ -1,0 +1,352 @@
+---
+title: "Data Science for Astronomy"
+subtitle: "Application Area Project"
+author: 
+  - Rohan Sai Nalla
+  - Siddharth Tayi
+  - Mohammed Junaid Shaik
+  - Ashwathi Subramanian
+  - Puja Kumari Lnu
+format: 
+  pdf:
+    toc: true
+    toc-depth: 5
+editor: visual
+abstract-title: "Abstract"
+abstract: "Since the dawn of time, people look into the sky stirring up questions out curiousity to know the very meanning of our existence. The questions like why are the seasons as they are? Why are we the only conscious people? Why did earth come to be? What is our purpose? Are we alone? came into consideration. These questions are the foundation to modern day astronomy. Considering the current influx of data in every domain astronomy is one of the first fields to leverage on this transition. With the addition of Data the very nature of discoveries changed. To elucidate this transistion this report present key findings of Exoplanet discoveries considering the timeline from the inception to the current epoch."
+---
+
+------------------------------------------------------------------------
+
+# Exoplanet Archive Analysis
+
+Premise of this analysis is to answer the question of **Are we alone in the Universe?**, the entire expedition of exoplanets itself is founded on this question. The quest to find more planets which closely resemble to us in all the aspects, making it habitable for other lifeforms. This question is also tied closely to the answering another question that stems from the dawn of time, which is the very purpose of our existence. To Exoplore and understand space comprehensively and scientifically, data plays an important role.  
+
+### **What is an exoplanet?**
+
+To put it simply, any planet outside of our solar system is an exoplanet. Rogue planets are exoplanets that don't orbit any star and instead orbit the Milky Way's center.
+
+The majority of the identified exoplanets are in a very tiny area of our galaxy, the Milky Way. According to NASA's Kepler Space Telescope, the galaxy has more planets than stars.
+
+We may observe compositions ranging from highly rocky (like Earth and Venus) to very gas-rich by measuring exoplanet sizes (diameters) and masses (weights) (like Jupiter and Saturn). Exoplanets are composed of elements comparable to those found in our solar system, although their compositions may vary. Water or ice may dominate certain planets, whereas iron or carbon may rule others. We've discovered lava worlds with molten oceans, fluffy planets with the solidity of Styrofoam, and dense cores of planets that are still circling their sun.
+
+### Exoplanet Discovery
+
+In the quest of finding other planets which are closest to earth like in-terms of habitability, terrain etc. NASA introduced Kepler and TESS Satellites to observe and detect objects in vast amounts of space.
+
+#### Transit Method
+
+Kepler looks for planets using the *Transit Method*, when a planet passes in front of the star the data in wave form detects a decrease in brightness.
+
+The transit method works only if the orbital plane of the objects is aligned to the line of sight of kepler. Assuming that the geometric probability of the axis is randomly distributed in space then the geometric probability of a transit is 0.5.
+
+So to find planets you need to observe a lot of stars, half a million stars in Kepler field of view around 150k are chosen for observation.
+
+All of the data collected either through Kepler or TESS is openly available to access through the public API sources through the NASA's Exoplanet-archive.
+
+```{r libraries}
+#| echo: false
+#| results: false
+install.packages('UpSetR',repos = "http://cran.us.r-project.org")
+install.packages('naniar',repos = "http://cran.us.r-project.org")
+
+```
+
+```{r importing libraries}
+#| echo: false
+suppressMessages(library("dplyr"))
+suppressMessages(library(tidyverse))
+suppressMessages(library(naniar))
+suppressMessages(library(UpSetR))
+```
+
+### Importing Data
+
+The data used in this report is sourced from mutiple archives. Both the datasets used in the report have similar attributes but consists of various exoplanets. In aggregation, both archives will have exoplanets from Kepler, TESS and CoRot Satellite data.
+
+```{r importing dataset}
+
+url1 <- "https://raw.githubusercontent.com/r0han99/Computational-Astronomy/master/Exo-Planet%20Archive/exoplanet-archive.csv"
+url2 <- "https://raw.githubusercontent.com/r0han99/Computational-Astronomy/master/Exo-Planet%20Archive/all_exoplanets_2021.csv"
+url3 <- "https://raw.githubusercontent.com/r0han99/Computational-Astronomy/master/Exo-Planet%20Archive/kepler_exoplanet_catalog.csv"
+
+data <- read.csv(url1)
+all_exo <- read.csv(url2)
+kepler_data <- read.csv(url3)
+```
+
+The three datasets `data`, `all_exo`, & `kepler_data`, represent the same attributes but for different exoplanets in each. Following are the list of attributes involved in the data.
+```{r}
+tail(colnames(data),-1)
+```
+
+#### An Overview
+
+```{r}
+head(data, n=3)
+head(data, n=3)
+```
+
+#### Dimensionality - Attributes Involved.
+
+Dimensions of `data`, `kepler_data`,`all_exo`
+```{r}
+#| echo: false
+
+dim(data)
+dim(kepler_data)
+dim(all_exo)
+
+```
+
+### Data Preprocessing
+
+At this stage, we observed a lot of inconsistencies within the data that needs to be addressed in order to progress further in the analysis. These inconsistencies are omnipresent in any real-world data sets. We initially observed huge magnitude of missing values which are then selectively addressed.
+
+```{r}
+#| fig-cap: Missing Value Representation
+gg_miss_upset(data) 
+```
+
+The attributes, `planet_density`, `planet_oribital_inclination` have a significant number of missing values and are also unrelevant to our further analysis.
+
+**Dropping 'planet_density', 'planet_orbital_inclination'**
+
+```{r}
+df <- within(data, rm("planet_density","planet_orbital_inclination"))
+```
+
+**Counting the number of 'NA' values in the dataset**
+
+```{r}
+countNas1 <- colSums(is.na(df))
+```
+
+```{r}
+countNas1
+```
+
+**Dealing with Infinity Values**
+
+```{r}
+
+df <- do.call(data.frame, lapply(df, function(x) {
+  replace(x, is.infinite(x) | is.na(x), 0)
+})
+)
+
+```
+
+**Filling 'NA' values as Not Recorded**
+
+In a conventional approach, normally the best course of action to deal with numeric missing values is to perform either *Median Imputation* or *Mean Imputation*. In astronomical data, every thing seems to be out of place, the values though seem like outliers are true to nature. So an average representation can skew the analysis. We concurred that imputing the values with `Not Recorded` will be the best course of action.
+
+```{r}
+df$light_years_from_earth[is.na(df$light_years_from_earth)] <- "Not Recorded"
+
+df$host_mass[is.na(df$host_mass)] <- "Not Recorded"
+
+df$host_temperature[is.na(df$host_temperature)] <- "Not Recorded"
+
+df$host_radius[is.na(df$host_radius)] <- "Not Recorded"
+
+df<- df %>% mutate(across(stellar_magnitude, ~replace_na(., median(., na.rm=TRUE))))
+```
+
+### Exploratory Data Analysis
+
+#### The Major Mode of Detection & Facility
+
+```{r}
+#| fig-cap: "Methods used to detect a Exoplanet Signature"
+ggplot(all_exo, aes(x=Discovery.Method)) + geom_bar(fill='orange') + coord_flip()
+
+```
+
+According to the data, the majority of the discoveries are by the Kepler Space Telescope, but there are significant other observatories that have contributed to the exploration. Citing from the Mode of detection chart, the go-to methodology for detecting an exoplanet is through the transit method, which seem quite plausible only through observing the minute change in luminosity in relation to time. 
+```{r}
+#| echo: false
+#| fig-cap: "Facilities Used for Exoplanet Exoploration"
+discovery_facility_pie <- all_exo %>% count(Discovery.Facility,sort=TRUE) %>% head(n=9)
+discovery_method_pie <- df %>% count(planet_discovery_method,sort=TRUE) %>% head(n=5)
+
+slices <- discovery_facility_pie$n
+lbls <- discovery_facility_pie$Discovery.Facility
+pie(slices, labels = lbls, main="Pie Chart of Discovery Facilities",radius=1)
+
+```
+
+
+#### Exoplanet Discoveries Over the years
+
+Although the science of exoplanets kicked of in the 1990’s but the success of the space telescopes ( x-ray and gamma ray detection ) CoRoT and kepler.
+In 90s the discovery rate was 1 or 2 of exoplanets a year
+now with kepler it is about 100’s of new planets a year are discovered
+
+In 1999, David Charbonneau and Greg Henry lead different research teams that detect a planet moving across the front of the star HD 209458 in the constellation Pegasus. This discovery enables astronomers to examine the planet's atmosphere, which they think includes water, oxygen, nitrogen, and carbon. Because of the planet's tight orbit to its star, its atmosphere is being stripped away, leaving a comet-like tail behind it. Artist's rendering of the HD 209458 system.
+
+
+```{r}
+#| echo: false
+#| layout-ncol: 2
+#| fig-subcap: 
+#|    - "20th Century"
+#|    - "21st Century"
+
+
+filter(df, discovery_date<2000) %>% ggplot(aes(x=discovery_date)) + geom_bar(fill='orange') + labs(
+  title = "Exoplanet Discoveries",
+  subtitle = "20th Century",
+  x = "Years",
+  y = "Number of Exoplanet Discoveries",
+) + theme_light() + coord_cartesian(xlim = c(1989, 2000))
+
+
+
+ggplot(df, aes(x=discovery_date)) + geom_bar(fill='orange') + labs(
+  title = "Exoplanet Discoveries from the 1989 to 2020",
+  subtitle = "21st Century",
+  x = "Years",
+  y = "Number of Exoplanet Discoveries",
+) + theme_light() + coord_cartesian(xlim = c(1989, 2020)) 
+```
+
+
+
+
+
+#### Orbital Period Vs Planet Radii 
+The orbital period ( The time it takes to complete a single orbit around its host) in relation with the planet radii, illustrates the key information of its magnitude. This plot reveals key information about the oribital period of planets in relation to their size, it is evident from the plot that earth like planets ( Super Earths ) are having orbital periods closer to the that of earth days. Whereas the planets which are in the magnitudes of Jupiter are seen to have larger orbital periods which is a natural trend even in our solar system.
+
+```{r}
+#| fig-cap: Exoplanets Orbital Period Vs Radius Graph 
+#| echo: false
+p <- filter(df, orbital_period_unit == "days") %>% ggplot(aes(x=orbital_period_value, y=planet_radius_value)) +
+  geom_point(aes(color = planet_radius_unit))+ 
+  scale_fill_hue(l=40) +
+  theme(legend.position="right")
+p + scale_color_hue(h = c(255,400 )) + 
+  labs(x="Oribital Period (days)", y="Planet Radii")
+
+```
+
+#### Planets Discovered After the introduction of TESS & Kepler
+
+A Delta II rocket carrying NASA's Kepler space telescope lifts off from Florida's Cape Canaveral Air Force Station. Kepler will spend four years staring at a region of sky with 150,000 stars, looking for small dips in illumination when planets pass in front of some of them. Before a malfunction terminates its main mission in 2013, the pioneering spacecraft will have discovered over 1,000 verified exoplanets—a gold rush of discovery.
+
+
+```{r}
+#| warning: false
+#| fig-cap: Transformative Change in Planets Discovered
+#| echo: false
+filter(df, planet_radius_unit==' Jupiter') %>% filter(discovery_date > 1991, planet_radius_value < 5) %>% ggplot( 
+       aes(x = discovery_date, y = planet_radius_value)) + 
+  geom_point(position="jitter")  + 
+  geom_smooth() +
+  scale_x_continuous(breaks = seq(1991, 2020, 2)) + 
+  labs(x = "Discovery Year", y = "Planet Size (Jupiter Radii)", title="Transformative Change in Planet Type Discoveries over the years.") 
+
+```
+
+#### Types of Exoplanets
+
+In the sample of data we have, the majority of the dataset is populated with the planets which are in the magnitudes of Jupiter and Neptune, there are also significant others which are barely less than Neptune called as the Super Earths. Discovery of these types significantly increased after the introduction of Kepler which had a primary mission to observe planets that produce only a minor signature. This can be observed in the above figures 6 and 7 where the number of planets after 2009 fall in between the jupiter radii of 0-1. 
+
+
+```{r}
+ggplot(df, aes(x=planet_type,fill=planet_type)) + 
+  geom_bar()
+```
+
+
+From the sample of data, there are main 4 categories with respect to the size of the planets: 'Gas Giant'/Jupiter, 'Neptune-like', 'Super Earth', and 'Terrestrial'. Most of the planets that are explored are the size of 'Neptune' and the least number of planets are the size of the 'Earth'/Terrestrial 
+Analysis before kepler (pre kepler) concluded that the planets observed were much larger than earth and Neptune, but was later proven wrong after Kepler's discovery. In current era, most of the planets discovered are closer to the size of 'Earth'. This is due to the fact that, kepler was tuned to observe the transits from planets which are smaller.
+
+
+
+
+### Exoploring the Habitable Exoplanets
+
+The habitable zone is the area of space around a star where temperatures are neither too hot nor too cold for liquid water to exist on neighbouring planets' surfaces. The habitable zone is essentially influenced by two factors: the mass and period of the star. The spectral type and brightness of a star change as it evolves. The habitable zone is defined as the range of orbital distances from a star at which a planet may sustain liquid water. This implies that water is necessary for life to exist, which is not always the case.
+
+**Properties of a Habitable Planet**
+
+A star's output has been constant for billions of years; orbit it. Moreover it should be far enough away from the star for its surface water to be liquid rather than solid at the proper temperature. Also, the exoplanet should have a circular orbit, so that during the course of its "year," the same conditions prevail. In a quantified sense, the planets in between 0.95 AU and 1.67 AU are deemed to be habitable, considering the Star is in the same classification as our Sun which is the K-type classification. 
+
+The star classification in this context is imperative to host life on a planet, if the Star type os "O" or "B" which are 'super massive stars' though the exoplanet is in habitable zone, the planet's temperature will be too hot to hold any liquid water or even life.
+
+Throughout the kepler's expedition there have been certain planets that are deemed to be habitable by scientists for the unique properties they hold. Through our research we found out the code names for these **Potentially Habitable** Planets. The following section includes the detailed look into *three* such planets which are scientifically agreed to be habitable. To perform this we use the `kepler_data` which is a sample from the entire cummulative dataset from NASA's Kepler Exoplanet Archive. 
+
+NASA's **Exoplanet Catalog** has a really good illustrated representation of the planet and its properties on it website, we used this report to cross-validate our findings and learn more about the object of interest.
+
+
+- Kepler 442 b
+- Kepler 22 b
+- Kepler 62 f
+
+The Kepler Naming convention is informative in itself. The number and alphabet, represents the Code number and the sequence of planet. The alphabet, a-z represents the number of planets in the entire system of that KOI (Kepler Object of Interest). For instace, kepler 62 f is a 5 planet system with "f" being in the habitable zone. All of these can be visually seen through *NASA's Exoplanet Eyes* by selecting the system field.
+
+#### Kepler's Habitable Planets
+
+```{r}
+k442b <- filter(kepler_data, kepler_name=='Kepler-442 b')
+k22b <- filter(kepler_data, kepler_name=='Kepler-22 b')
+k62f <- filter(kepler_data, kepler_name=='Kepler-62 f')
+```
+
+##### Kepler 442 b ~ [Illustration](https://exoplanets.nasa.gov/exoplanet-catalog/4906/kepler-442-b/)
+
+Kepler-442 b is a super Earth exoplanet in the habitable zone of a K-type star ( similar to that of our sun). It has a mass of 2.36 Earths, takes 112.3 days to complete one circle around its star, and is 0.409 AU away from it. Its finding was revealed in the year 2001.
+
+```{r}
+#| echo: false
+k442b %>% dplyr::select(kepler_name, koi_disposition,koi_steff, koi_srad, koi_prad,koi_period) -> x
+  
+colnames(x) <- c("Planet Name", "Disposition", "Host-Star Temperature(k)", "Host-Star Radii(sun)", "Planet Radii(earth)", "Orbital Period(days)")
+knitr::kable(x)
+
+```
+
+
+#### Kepler 22 b  - [Illustration](https://exoplanets.nasa.gov/exoplanet-catalog/1599/kepler-22b/)
+
+Kepler-22b is a super-Earth that might be completely covered by a mega ocean. The judgment is still out on Kepler-22b's real composition; at 2.4 times the radius of the Earth, it may potentially be gaseous. According to current computer simulation, an ocean planet turned on its side - similar to our solar system's ice giant, Uranus - turns out to be reasonably livable. An exoplanet of Earth's size, at a similar distance from its sun and covered in water, might have an average surface temperature of roughly 60 degrees Fahrenheit, according to researchers (15.5 Celsius). Because of its extreme tilt, the planet's north and south poles would alternately be drenched in sunshine and darkness for half a year as it circled its star.
+
+```{r}
+#| echo: false
+#| 
+k22b %>% dplyr::select(kepler_name, koi_disposition,koi_steff, koi_srad, koi_prad,koi_period) -> x
+  
+colnames(x) <- c("Planet Name", "Disposition", "Host-Star Temperature(k)", "Host-Star Radii(sun)", "Planet Radii(earth)", "Orbital Period(days)")
+knitr::kable(x)
+```
+
+
+#### Kepler 62 f - [Illustration](https://exoplanets.nasa.gov/exoplanet-catalog/375/kepler-62-f/)
+
+Kepler-62 f is a super Earth exoplanet in the habitable zone of a K-type star. It has a mass of 35 Earths, takes 267.3 days to complete one circle around its star, and is 0.718 AU away from it. It was discovered in 2013 and was publicized.
+
+```{r}
+#| echo: false
+
+k62f %>% dplyr::select(kepler_name, koi_disposition,koi_steff, koi_srad, koi_prad,koi_period) -> x
+  
+colnames(x) <- c("Planet Name", "Disposition", "Host-Star Temperature(k)", "Host-Star Radii(sun)", "Planet Radii(earth)", "Orbital Period(days)")
+knitr::kable(x)
+```
+
+
+
+### Conclusion 
+
+This report consists of base level analysis on just a small sample of enourmous exoplanet archive that is openly available. The objective of this project is is to elucidate how the influx of data in the current age is influencing the scientific discoveries. Pre-kepler era, where the observations are done from the ground base systems used to rely on sluggish processes which take a lot of time and effort to validate only a few objects. But, in the age of data, the information obtained from Kepler is enormous with hundreds of parameters related to a particular exoplanet to be ready at disposal to categorise with Data Mining. The programmatic illustrations and statistical analysis help scientists to grasp huge amount of information with some simple code. 
+
+**Identifying our Bias** — There are multiple segments in the report where we can observe an induced bias.For the analysis of habitable exoplanets we could only use a miniature sample of the entire kepler archive, narrowing down our analysis to only three *Earth Like* objects. Same applies to the original data which includes all Exoplanets from different observation facilities and methods. The sheer lack of data accounts for not having a good analytical representation.
+
+---
+### Session Info
+```{r}
+sessionInfo()
+```
+
+
